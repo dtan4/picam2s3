@@ -8,6 +8,10 @@ GLIDE := $(shell command -v glide 2>&1 > /dev/null)
 bin/$(NAME): deps
 	go build $(LDFLAGS) -o bin/$(NAME)
 
+.PHONY: build-raspi
+build-raspi:
+	GOOS=linux GOARCH=arm GOARM=6 go build $(LDFLAGS) -o bin/$(NAME)-raspi
+
 .PHONY: deps
 deps:
 	glide install
