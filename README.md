@@ -24,3 +24,7 @@ $ picam2s3 <bucket> http://<IP address of Raspberry Pi>:8080/?action=snapshot
 ```
 
 Snapshot via webcam will be uploaded as `s3://<bucket>/<UNIX time>.jpg`.
+
+## License
+
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
