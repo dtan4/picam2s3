@@ -34,6 +34,22 @@ func fetchImage(url string) ([]byte, error) {
 	return body, nil
 }
 
+func uploadToS3(bucket, key string, body []byte) error {
+	svc := s3.New(session.New(), &aws.Config{Region: aws.String("ap-northeast-1")})
+
+	_, err := svc.PutObject(&s3.PutObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(key),
+		Body:   bytes.NewReader(body),
+		ACL:    aws.String("private"),
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func main() {
 	if len(os.Args) != 3 {
 		fmt.Fprintln(os.Stderr, Usage)
@@ -44,7 +60,6 @@ func main() {
 	url := os.Args[2]
 
 	body, err := fetchImage(url)
-
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -52,18 +67,10 @@ func main() {
 
 	key := fmt.Sprintf("%d.jpg", time.Now().Unix())
 
-	svc := s3.New(session.New(), &aws.Config{Region: aws.String("ap-northeast-1")})
-
-	resp, err := svc.PutObject(&s3.PutObjectInput{
-		Bucket: aws.String(bucket),
-		Key:    aws.String(key),
-		Body:   bytes.NewReader(body),
-		ACL:    aws.String("private"),
-	})
-	if err != nil {
+	if err := uploadToS3(bucket, key, body); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 
-	fmt.Println(resp)
+	fmt.Println("Snapshot was uploaded to s3://" + bucket + "/" + key)
 }
