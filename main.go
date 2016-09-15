@@ -40,8 +40,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	bucket := os.Args[2]
-	url := os.Args[3]
+	bucket := os.Args[1]
+	url := os.Args[2]
 
 	body, err := fetchImage(url)
 
