@@ -1,6 +1,6 @@
 # picam2s3
 
-Send [mjpeg-streamer](https://github.com/jacksonliam/mjpg-streamer) snapshot to S3
+Send [mjpg-streamer](https://github.com/jacksonliam/mjpg-streamer) snapshot to S3
 
 ## How to build and run
 
@@ -18,6 +18,8 @@ $ bin/picam2s3-raspi
 ## Usage
 
 `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` must be set. Currently AWS region is fixed to `ap-northeast-1`.
+
+mjpg-streamer must also run as HTTP streaming server.
 
 ```bash
 $ picam2s3 <bucket> http://<IP address of Raspberry Pi>:8080/?action=snapshot
