@@ -52,7 +52,7 @@ func main() {
 
 	key := fmt.Sprintf("%d.jpg", time.Now().Unix())
 
-	svc := s3.New(session.New(), &aws.Config{})
+	svc := s3.New(session.New(), &aws.Config{Region: aws.String("ap-northeast-1")})
 
 	resp, err := svc.PutObject(&s3.PutObjectInput{
 		Bucket: aws.String(bucket),
